@@ -17,8 +17,8 @@ const ejsLayouts = require('express-ejs-layouts')
 const axios = require('axios')
 const path = require('path')
 
-var client_id = process.env.CLIENT_ID // Your client id
-var client_secret = process.env.CLIENT_SECRET // Your secret
+var client_id = '6855733766f843ef8e1cc8c2bf86d052' // Your client id
+var client_secret = 'bdc0727b8b6e4fe7ba84e5b061309e77' // Your secret
 var redirect_uri = 'http://localhost:8888/callback' // Your redirect uri
 
 /**
@@ -42,7 +42,7 @@ var stateKey = 'spotify_auth_state'
 var app = express()
 
 app.engine('html', require('ejs').renderFile)
-app.set('view engine', 'html')
+app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
 
 app.use(ejsLayouts)
@@ -108,16 +108,14 @@ app.get('/callback', function (req, res) {
           refresh_token = body.refresh_token
         // ***TODO HERE I HAVE SET IT TO SEARCH FOR TRACKS CALLED "HELLO"
         var options = {
-          url: 'https://api.spotify.com/v1/search?q=Hello&type=track&limit=1',
+          url: 'https://api.spotify.com/v1/search?q=Hello&type=track&limit=10',
           headers: { Authorization: 'Bearer ' + access_token },
           json: true,
         }
 
-        // ***TODO HERE IT SHOULD BE RENDERING /RESULTS BUT IT'S NOT
         // use the access token to access the Spotify Web API
         request.get(options, function (error, response, body) {
-          // res.render('/results', { tracks: body.tracks.items })
-          res.render('/results')
+          res.render('results', { tracks: body.tracks.items })
         })
 
         // we can also pass the token to the browser to make requests from there
