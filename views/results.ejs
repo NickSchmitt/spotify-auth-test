@@ -1,7 +1,7 @@
 <h1>Results</h1>
 <% for( let i = 0; i < tracks.length; i++ ) { %>
   <div class="movie">
-    <h3><%= tracks[i].name %></h3>
+    <h3><%= `${tracks[i].name} by ${tracks[i].artists[0].name}` %></h3>
     <a href="/tracks/<%= tracks[i].id %>">Read More</a>
     <hr>
   </div>
